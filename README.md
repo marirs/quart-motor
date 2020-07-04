@@ -1,7 +1,7 @@
 Quart-Motor
 =============
 
-`MongoDB <http://www.mongodb.org/>`_ is an open source database that stores
+`MongoDB <http://www.mongodb.org/>` is an open source database that stores
 flexible JSON-like "documents," which can have any number, name, or
 hierarchy of fields within, instead of rows of data as in a relational
 database. Python developers can think of MongoDB as a persistent, searchable
