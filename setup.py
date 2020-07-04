@@ -16,9 +16,9 @@ with open('README.md') as f:
 
 setup(
     name="Quart-Motor",
-    version='2.4.1',
-    url="https://www.github.com/quart-motor/",
-    download_url="https://www.github.com/quart-motor/tags",
+    version='2.4.2',
+    url="https://www.github.com/marirs/quart-motor/",
+    download_url="https://www.github.com/marirs/quart-motor/tags",
     license="BSD",
     author="Sriram G",
     author_email="marirs@gmail.com",
