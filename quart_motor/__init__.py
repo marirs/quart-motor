@@ -14,8 +14,8 @@ from gridfs import GridFS, NoFile
 from pymongo import uri_parser
 from werkzeug.wsgi import wrap_file
 
-from packages.quart_motor.helpers import BSONObjectIdConverter, JSONEncoder
-from packages.quart_motor.wrappers import AsyncIOMotorClient
+from quart_motor.helpers import BSONObjectIdConverter, JSONEncoder
+from quart_motor.wrappers import AsyncIOMotorClient
 
 __all__ = ("Motor", "ASCENDING", "DESCENDING")
 

@@ -9,14 +9,14 @@ Source code is hosted on `GitHub <https://github.com/marirs/quart-motor>`_.
 Contributions are welcome!
 """
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 with open('README.md') as f:
     long_description = f.read()
 
 setup(
     name="Quart-Motor",
-    version='2.4.0',
+    version='2.4.1',
     url="https://www.github.com/quart-motor/",
     download_url="https://www.github.com/quart-motor/tags",
     license="BSD",
@@ -26,19 +26,21 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     zip_safe=False,
-    platforms="any",
-    packages=['quart_motor'],
+    packages=find_packages(),
     install_requires=[
+        "PyMongo>=3.10",
         "Quart>=0.12.0",
-        "motor>=2.1.0"
-        "PyMongo>=3.10.1",
+        "motor>=2.1.0",
         "six",
     ],
     classifiers=[
         "Environment :: Web Environment",
+        "Development Status :: 5 - Production/Stable",
+        "Natural Language :: English",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
-        "Operating System :: OS Independent",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Unix",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
