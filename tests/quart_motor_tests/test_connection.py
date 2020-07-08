@@ -32,6 +32,7 @@ class TestQuartMotor:
     async def test_motor_database_success(self):
         app = Quart(__name__)
         mongo = Motor(app=app, uri=self.uri)
+        await app.startup()
         assert isinstance(mongo.db, AsyncIOMotorDatabase)
 
     @pytest.mark.asyncio
@@ -45,6 +46,7 @@ class TestQuartMotor:
         app = Quart(__name__)
         db1 = Motor(app=app, uri=f"{self.client_uri}test1")
         db2 = Motor(app=app, uri=f"{self.client_uri}test2")
+        await app.startup()
         assert isinstance(db1.db, AsyncIOMotorDatabase)
         assert isinstance(db2.db, AsyncIOMotorDatabase)
 
@@ -52,6 +54,7 @@ class TestQuartMotor:
     async def test_motor_no_database_name_in_uri(self):
         app = Quart(__name__)
         mongo = Motor(app=app, uri=self.client_uri)
+        await app.startup()
         assert mongo.db is None
 
     @pytest.mark.asyncio
@@ -61,6 +64,7 @@ class TestQuartMotor:
 
         app = Quart(__name__)
         mongo = Motor(app=app, uri=self.uri, document_class=CustomDict)
+        await app.startup()
         things = await mongo.db.things.find_one()
         assert things is None
 
@@ -73,6 +77,7 @@ class TestQuartMotor:
     async def test_motor_doesnt_connect_by_default(self):
         app = Quart(__name__)
         mongo = Motor(app=app, uri=self.uri)
+        await app.startup()
 
         with pytest.raises(CouldNotConnect):
             _wait_until_connected(mongo, timeout=0.2)
