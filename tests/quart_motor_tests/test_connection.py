@@ -62,11 +62,11 @@ class TestQuartMotor:
         app = Quart(__name__)
         mongo = Motor(app=app, uri=self.uri, document_class=CustomDict)
         things = await mongo.db.things.find_one()
-        assert things is None, "precondition failed"
+        assert things is None
 
         await mongo.db.things.insert_one({"_id": "thing", "val": "foo"})
         things = await mongo.db.things.find_one()
-        await mongo.db.things.drop()
+        await mongo.db.things.delete_many({})
         assert type(things) == CustomDict
 
     @pytest.mark.asyncio

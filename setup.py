@@ -11,6 +11,26 @@ Contributions are welcome!
 
 from setuptools import find_packages, setup
 
+tests_require = [
+    'coverage>=4.5',
+    'coveralls>=1.8',
+    'pytest>=5.2',
+    'pytest-cov>=2.8',
+    'pytest-pep8>=1.0',
+    'pydocstyle>=4.0',
+]
+
+extras_require = {
+    'tests': tests_require,
+}
+
+extras_require['all'] = [req for exts, reqs in extras_require.items()
+                         for req in reqs]
+
+setup_requires = [
+    'pytest-runner>=5.2',
+]
+
 with open('README.md') as f:
     long_description = f.read()
 

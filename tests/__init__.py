@@ -1,2 +1,5 @@
-from .test_connection import TestQuartMotor
-from .test_wrappers import TestCollection
+import pytest
+from .quart_motor_tests import TestQuartMotor, TestCollection
+
+if __name__ == '__main__':
+    pytest.main(['--color=auto', '--no-cov', '-v'])
