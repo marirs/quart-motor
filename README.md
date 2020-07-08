@@ -60,8 +60,9 @@ versions.
 Quart-Motor is tested against `supported versions
 <https://www.mongodb.com/support-policy>`_ of MongoDB, 3.5+.
 
-Quart-Motor works very well with `uvicorn` asgi, while with hypercorn sometimes 
-it has multiple loop problems (motor attached to different loop).
+Quart-Motor works very well with 
+- `uvicorn` asgi 
+- `hypercorn` asgi
 
 Quart-Motor is tested against `Python 3.7+` versions.
 

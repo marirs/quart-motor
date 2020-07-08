@@ -4,6 +4,8 @@ Description: Motor for Quart
 Modified from: https://github.com/dcrosta/flask-pymongo
 Author: Sriram
 """
+import asyncio
+
 import pymongo
 from functools import partial
 from mimetypes import guess_type
@@ -76,6 +78,11 @@ class Motor(object):
            it did in previous versions. You must now use a MongoDB URI to
            configure Quart-Motor.
         """
+        async def _before_serving():
+            self.cx = AsyncIOMotorClient(*args, **kwargs)
+            if database_name:
+                self.db = self.cx[database_name]
+
         if uri is None:
             uri = app.config.get("MONGO_URI", None)
         if uri is not None:
@@ -92,9 +99,7 @@ class Motor(object):
         # http://api.mongodb.com/python/current/faq.html#is-pymongo-fork-safe
         kwargs.setdefault("connect", False)
 
-        self.cx = AsyncIOMotorClient(*args, **kwargs)
-        if database_name:
-            self.db = self.cx[database_name]
+        app.before_serving(_before_serving)
 
         app.url_map.converters["ObjectId"] = BSONObjectIdConverter
         app.json_encoder = self._json_encoder
