@@ -1,6 +1,9 @@
 """
 Wrappers
 """
+from motor.core import AgnosticBaseProperties
+from pymongo.collection import Collection
+from pymongo.database import Database
 from quart import abort
 from motor import motor_asyncio
 
@@ -13,17 +16,8 @@ class AsyncIOMotorClient(motor_asyncio.AsyncIOMotorClient):
     :class:`~AsyncIOMotorDatabase` when accessed with dot notation.
     """
 
-    def __getattr__(self, name):  # noqa: D105
-        attr = super(AsyncIOMotorClient, self).__getattr__(name)
-        if isinstance(attr, AsyncIOMotorDatabase):
-            return AsyncIOMotorDatabase(self, name)
-        return attr
-
-    def __getitem__(self, item):  # noqa: D105
-        attr = super(AsyncIOMotorClient, self).__getitem__(item)
-        if isinstance(attr, AsyncIOMotorDatabase):
-            return AsyncIOMotorDatabase(self, item)
-        return attr
+    def __getitem__(self, name):
+        return AsyncIOMotorDatabase(self, name)
 
 
 class AsyncIOMotorDatabase(motor_asyncio.AsyncIOMotorDatabase):
@@ -34,17 +28,14 @@ class AsyncIOMotorDatabase(motor_asyncio.AsyncIOMotorDatabase):
     :class:`~motor.motor_asyncio.AsyncIOMotorCollection` when accessed with dot notation.
     """
 
-    def __getattr__(self, name):  # noqa: D105
-        attr = super(AsyncIOMotorDatabase, self).__getattr__(name)
-        if isinstance(attr, AsyncIOMotorCollection):
-            return AsyncIOMotorCollection(self, name)
-        return attr
+    def __init__(self, client, name, **kwargs):
+        self._client = client
+        delegate = kwargs.get("_delegate") or Database(client.delegate, name, **kwargs)
 
-    def __getitem__(self, item):  # noqa: D105
-        item_ = super(AsyncIOMotorDatabase, self).__getitem__(item)
-        if isinstance(item_, AsyncIOMotorCollection):
-            return AsyncIOMotorCollection(self, item)
-        return item_
+        super(AgnosticBaseProperties, self).__init__(delegate)
+
+    def __getitem__(self, name):
+        return AsyncIOMotorCollection(self, name)
 
 
 class AsyncIOMotorCollection(motor_asyncio.AsyncIOMotorCollection):
@@ -52,21 +43,42 @@ class AsyncIOMotorCollection(motor_asyncio.AsyncIOMotorCollection):
     """Sub-class of Motor :class:`~AsyncIOMotorCollection` with helpers.
     """
 
-    def __getattr__(self, name):  # noqa: D105
-        attr = super(AsyncIOMotorCollection, self).__getattr__(name)
-        if isinstance(attr, AsyncIOMotorCollection):
-            db = self._Collection__database
-            return AsyncIOMotorCollection(db, attr.name)
-        return attr
+    def __init__(
+        self,
+        database,
+        name,
+        codec_options=None,
+        read_preference=None,
+        write_concern=None,
+        read_concern=None,
+        _delegate=None,
+    ):
+        db_class = AsyncIOMotorDatabase
 
-    def __getitem__(self, item):  # noqa: D105
-        item_ = super(AsyncIOMotorCollection, self).__getitem__(item)
-        if isinstance(item_, AsyncIOMotorCollection):
-            db = self._Collection__database
-            return AsyncIOMotorCollection(db, item_.name)
-        return item_
+        if not isinstance(database, db_class):
+            raise TypeError(
+                "First argument to MotorCollection must be "
+                "MotorDatabase, not %r" % database
+            )
 
-    def find_one_or_404(self, *args, **kwargs):
+        delegate = _delegate or Collection(
+            database.delegate,
+            name,
+            codec_options=codec_options,
+            read_preference=read_preference,
+            write_concern=write_concern,
+            read_concern=read_concern,
+        )
+
+        super(AgnosticBaseProperties, self).__init__(delegate)
+        self.database = database
+
+    def __getitem__(self, name):
+        return AsyncIOMotorCollection(
+            self.database, self.name + "." + name, _delegate=self.delegate[name]
+        )
+
+    async def find_one_or_404(self, *args, **kwargs):
         """Find a single document or raise a 404.
         This is like :meth:`~AsyncIOMotorCollection.Collection.find_one`, but
         rather than returning ``None``, cause a 404 Not Found HTTP status
@@ -78,7 +90,7 @@ class AsyncIOMotorCollection(motor_asyncio.AsyncIOMotorCollection):
                 return render_template("user.html",
                     user=user)
         """
-        found = self.find_one(*args, **kwargs)
+        found = await self.find_one(*args, **kwargs)
         if found is None:
             abort(404)
         return found
