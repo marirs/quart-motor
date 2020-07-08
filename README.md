@@ -1,12 +1,14 @@
 Quart-Motor
 =============
+[![Build Status](https://travis-ci.org/marirs/quart-motor.svg?branch=master)](https://travis-ci.org/marirs/quart-motor)
+[![GitHub license](https://img.shields.io/github/license/marirs/quart-motor)](https://github.com/marirs/quart-motor/blob/master/LICENSE)
 
 `MongoDB <http://www.mongodb.org/>` is an open source database that stores
 flexible JSON-like "documents," which can have any number, name, or
 hierarchy of fields within, instead of rows of data as in a relational
 database. Python developers can think of MongoDB as a persistent, searchable
 repository of Python dictionaries (and, in fact, this is how `PyMongo
-<http://api.mongodb.org/python/current/>`_ represents MongoDB documents).
+<http://api.mongodb.org/python/current/>` represents MongoDB documents).
 
 Quart-Motor bridges Quart and Motor and provides some convenience
 helpers.
@@ -210,3 +212,4 @@ Contributors of Flask-PyMongo:
 Contributors of Quart-Motor
 
 - `Sriram <https://github.com/marirs>`
+- `Kiran <https://github.com/kirantambe>`
