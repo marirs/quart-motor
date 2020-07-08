@@ -1,6 +1,6 @@
-"""
-Package: Quart-Motor
-Description: Motor ORM for Quart
+"""Quart-Motor.
+
+Description: Motor for Quart
 Modified from: https://github.com/dcrosta/flask-pymongo
 Author: Sriram
 """
@@ -39,6 +39,7 @@ ASCENDING = pymongo.ASCENDING
 
 class Motor(object):
     """Manages MongoDB connections for your Quart app.
+
     Motor objects provide access to the MongoDB server via the :attr:`db`
     and :attr:`cx` attributes. You must either pass the :class:`~quart.Quart`
     app to the constructor, or call :meth:`init_app`.
@@ -48,6 +49,7 @@ class Motor(object):
     """
 
     def __init__(self, app=None, uri=None, json_options=None, *args, **kwargs):
+        """__init__."""
         self.cx = None
         self.db = None
         self._json_encoder = partial(JSONEncoder, json_options=json_options)
@@ -57,6 +59,7 @@ class Motor(object):
 
     def init_app(self, app, uri=None, *args, **kwargs):
         """Initialize this :class:`Motor` for use.
+
         Configure a :class:`~motor_async.AsyncIOMotorClient`
         in the following scenarios:
         1. If ``uri`` is not ``None``, pass the ``uri`` and any positional
@@ -99,6 +102,7 @@ class Motor(object):
     # view helpers
     def send_file(self, filename, base="fs", version=-1, cache_for=31536000):
         """Respond with a file from GridFS.
+
         Returns an instance of the :attr:`~quart.Quart.response_class`
         containing the named file, and implement conditional GET semantics
         (using :meth:`~werkzeug.wrappers.ETagResponseMixin.make_conditional`).
@@ -146,6 +150,7 @@ class Motor(object):
 
     def save_file(self, filename, fileobj, base="fs", content_type=None, **kwargs):
         """Save a file-like object to GridFS using the given filename.
+
         .. code-block:: python
             @app.route("/uploads/<path:filename>", methods=["POST"])
             def save_upload(filename):

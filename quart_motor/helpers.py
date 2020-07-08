@@ -1,6 +1,4 @@
-"""
-Helpers
-"""
+"""Helpers."""
 from bson import json_util, SON
 from bson.errors import InvalidId
 from bson.objectid import ObjectId
@@ -29,8 +27,8 @@ def _iteritems(obj):
 
 
 class BSONObjectIdConverter(BaseConverter):
+    """A simple converter for the RESTful URL routing system of Quart.
 
-    """A simple converter for the RESTful URL routing system of Flask.
     .. code-block:: python
         @app.route("/<ObjectId:task_id>")
         def show_task(task_id):
@@ -47,18 +45,20 @@ class BSONObjectIdConverter(BaseConverter):
     """
 
     def to_python(self, value):
+        """to_python."""
         try:
             return ObjectId(value)
         except InvalidId:
             raise abort(404)
 
     def to_url(self, value):
+        """to_url."""
         return str(value)
 
 
 class JSONEncoder(quart_json.JSONEncoder):
-
     """A JSON encoder that uses :mod:`bson.json_util` for MongoDB documents.
+
     .. code-block:: python
         @app.route("/cart/<ObjectId:cart_id>")
         def json_route(cart_id):
@@ -85,6 +85,7 @@ class JSONEncoder(quart_json.JSONEncoder):
     """
 
     def __init__(self, json_options, *args, **kwargs):
+        """__init__."""
         if json_options is None:
             json_options = DEFAULT_JSON_OPTIONS
         if json_options is not None:
@@ -96,6 +97,7 @@ class JSONEncoder(quart_json.JSONEncoder):
 
     def default(self, obj):
         """Serialize MongoDB object types using :mod:`bson.json_util`.
+
         Falls back to Quart's default JSON serialization for all other types.
         This may raise ``TypeError`` for object types not recognized.
         .. version-added:: 2.4.0
