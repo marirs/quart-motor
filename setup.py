@@ -16,6 +16,7 @@ tests_require = [
     'coveralls>=1.8',
     'pytest>=5.2',
     'pytest-cov>=2.8',
+    'pytest-asyncio>=0.14.0',
     'pytest-pep8>=1.0',
     'pydocstyle>=4.0',
 ]

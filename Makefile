@@ -4,4 +4,4 @@ install:
 
 tests:
 	pydocstyle quart_motor
-	pytest --disable-warnings
+	pytest --cov=./ --disable-warnings

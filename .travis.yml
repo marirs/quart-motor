@@ -10,4 +10,4 @@ script:
     - make tests
 
 after_success:
-    - coveralls
+    - codecov
