@@ -14,6 +14,7 @@ from setuptools import find_packages, setup
 tests_require = [
     'coverage>=4.5',
     'coveralls>=1.8',
+    'codecov>=2.1.7',
     'pytest>=5.2',
     'pytest-cov>=2.8',
     'pytest-asyncio>=0.14.0',
