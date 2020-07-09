@@ -3,6 +3,7 @@ nose*.egg-info
 nose*.egg
 _build
 .coverage
+.coverage.xml
 dist/
 *.pyc
 .pytest_cache/
