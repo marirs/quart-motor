@@ -3,6 +3,7 @@ Quart-Motor
 [![Build Status](https://travis-ci.org/marirs/quart-motor.svg?branch=master)](https://travis-ci.org/marirs/quart-motor)
 [![codecov](https://codecov.io/gh/marirs/quart-motor/branch/master/graph/badge.svg)](https://codecov.io/gh/marirs/quart-motor)
 [![GitHub license](https://img.shields.io/badge/license-BSD%203-brightgreen)](https://github.com/marirs/quart-motor/blob/master/LICENSE)
+![PyPI - Downloads](https://img.shields.io/pypi/dd/Quart-Motor)
 
 `MongoDB <http://www.mongodb.org/>` is an open source database that stores
 flexible JSON-like "documents," which can have any number, name, or
