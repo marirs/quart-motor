@@ -108,7 +108,7 @@ Note:
     By default, Quart-Motor sets the ``connect`` keyword argument to
     ``False``, to prevent Motor from connecting immediately. Motor
     itself `is not fork-safe
-    <http://api.mongodb.com/python/current/faq.html#is-pymongo-fork-safe>`_,
+    <https://pymongo.readthedocs.io/en/stable/faq.html#is-pymongo-fork-safe>`_,
     and delaying connection until the app is actually used is necessary to
     avoid issues. If you wish to change this default behavior, pass
     ``connect=True`` as a keyword argument to ``Motor``.
