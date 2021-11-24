@@ -96,7 +96,7 @@ class Motor(object):
         database_name = parsed_uri["database"]
 
         # Try to delay connecting, in case the app is loaded before forking, per
-        # http://api.mongodb.com/python/current/faq.html#is-pymongo-fork-safe
+        # https://pymongo.readthedocs.io/en/stable/faq.html#is-pymongo-fork-safe
         kwargs.setdefault("connect", False)
 
         app.before_serving(_before_serving)
