@@ -7,7 +7,7 @@ from six import iteritems, string_types
 from werkzeug.routing import BaseConverter
 import pymongo
 
-__all__ = ["BSONObjectIdConverter", "JSONEncoder"]
+__all__ = ["BSONObjectIdConverter", "JSONProvider"]
 
 
 if pymongo.version_tuple >= (3, 5, 0):
@@ -56,7 +56,7 @@ class BSONObjectIdConverter(BaseConverter):
         return str(value)
 
 
-class JSONEncoder(quart_json.JSONEncoder):
+class JSONProvider(quart_json.provider.DefaultJSONProvider):
     """A JSON encoder that uses :mod:`bson.json_util` for MongoDB documents.
 
     .. code-block:: python
@@ -69,7 +69,7 @@ class JSONEncoder(quart_json.JSONEncoder):
     Since this uses PyMongo's JSON tools, certain types may serialize
     differently than you expect. See :class:`~bson.json_util.JSONOptions`
     for details on the particular serialization that will be used.
-    A :class:`~quart_motor.helpers.JSONEncoder` is automatically
+    A :class:`~quart_motor.helpers.JSONProvider` is automatically
     automatically installed on the :class:`~quart_motor.Motor`
     instance at creation time, using
     :const:`~bson.json_util.RELAXED_JSON_OPTIONS`. You can change the
@@ -84,7 +84,7 @@ class JSONEncoder(quart_json.JSONEncoder):
     .. versionadded:: 2.4.0
     """
 
-    def __init__(self, json_options, *args, **kwargs):
+    def __init__(self, app, json_options, *args, **kwargs):
         """__init__."""
         if json_options is None:
             json_options = DEFAULT_JSON_OPTIONS
@@ -93,7 +93,7 @@ class JSONEncoder(quart_json.JSONEncoder):
         else:
             self._default_kwargs = {}
 
-        super(JSONEncoder, self).__init__(*args, **kwargs)
+        super(JSONProvider, self).__init__(*args, **kwargs)
 
     def default(self, obj):
         """Serialize MongoDB object types using :mod:`bson.json_util`.
@@ -111,6 +111,6 @@ class JSONEncoder(quart_json.JSONEncoder):
                 return json_util.default(obj, **self._default_kwargs)
             except TypeError:
                 # PyMongo couldn't convert into a serializable object, and
-                # the Flask default JSONEncoder won't; so we return the
+                # the Flask default JSONProvider won't; so we return the
                 # object itself and let stdlib json handle it if possible
                 return obj

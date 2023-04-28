@@ -16,7 +16,7 @@ from gridfs import GridFS, NoFile
 from pymongo import uri_parser
 from werkzeug.wsgi import wrap_file
 
-from quart_motor.helpers import BSONObjectIdConverter, JSONEncoder
+from quart_motor.helpers import BSONObjectIdConverter, JSONProvider
 from quart_motor.wrappers import AsyncIOMotorClient
 
 __all__ = ("Motor", "ASCENDING", "DESCENDING")
@@ -54,7 +54,7 @@ class Motor(object):
         """__init__."""
         self.cx = None
         self.db = None
-        self._json_encoder = partial(JSONEncoder, json_options=json_options)
+        self._json_provider_class = partial(JSONProvider, json_options=json_options)
 
         if app is not None:
             self.init_app(app, uri, *args, **kwargs)
@@ -102,7 +102,7 @@ class Motor(object):
         app.before_serving(_before_serving)
 
         app.url_map.converters["ObjectId"] = BSONObjectIdConverter
-        app.json_encoder = self._json_encoder
+        app.json = self._json_provider_class(app=app)
 
     # view helpers
     def send_file(self, filename, base="fs", version=-1, cache_for=31536000):
