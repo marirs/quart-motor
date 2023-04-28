@@ -93,7 +93,7 @@ class JSONProvider(quart_json.provider.DefaultJSONProvider):
         else:
             self._default_kwargs = {}
 
-        super(JSONProvider, self).__init__(*args, **kwargs)
+        super(JSONProvider, self).__init__(app, *args, **kwargs)
 
     def default(self, obj):
         """Serialize MongoDB object types using :mod:`bson.json_util`.
