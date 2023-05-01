@@ -51,9 +51,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "PyMongo>=3.10",
-        "Quart>=0.12.0",
+        "Quart>=0.18.0",
         "motor>=2.1.0",
         "six",
+        "werkzeug"
     ],
     classifiers=[
         "Environment :: Web Environment",

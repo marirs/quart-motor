@@ -2,7 +2,7 @@
 from bson import json_util, SON
 from bson.errors import InvalidId
 from bson.objectid import ObjectId
-from quart import abort, json as quart_json
+from quart import abort, json as quart_json, Quart
 from six import iteritems, string_types
 from werkzeug.routing import BaseConverter
 import pymongo
@@ -56,7 +56,7 @@ class BSONObjectIdConverter(BaseConverter):
         return str(value)
 
 
-class JSONEncoder(quart_json.JSONEncoder):
+class JSONEncoder(quart_json.provider.DefaultJSONProvider):
     """A JSON encoder that uses :mod:`bson.json_util` for MongoDB documents.
 
     .. code-block:: python
@@ -84,7 +84,7 @@ class JSONEncoder(quart_json.JSONEncoder):
     .. versionadded:: 2.4.0
     """
 
-    def __init__(self, json_options, *args, **kwargs):
+    def __init__(self, app: Quart, json_options, *args, **kwargs):
         """__init__."""
         if json_options is None:
             json_options = DEFAULT_JSON_OPTIONS
@@ -93,7 +93,7 @@ class JSONEncoder(quart_json.JSONEncoder):
         else:
             self._default_kwargs = {}
 
-        super(JSONEncoder, self).__init__(*args, **kwargs)
+        super(JSONEncoder, self).__init__(app=app, *args, **kwargs)
 
     def default(self, obj):
         """Serialize MongoDB object types using :mod:`bson.json_util`.

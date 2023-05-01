@@ -12,6 +12,7 @@ version.txt
 .eggs/
 .tox/
 build/
+venv/
 
 .idea
 __pycache__/
