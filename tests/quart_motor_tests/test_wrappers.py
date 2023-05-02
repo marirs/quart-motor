@@ -1,6 +1,6 @@
 import pytest
 from quart import Quart
-from quart.exceptions import NotFound
+from werkzeug.exceptions import NotFound
 
 from quart_motor import Motor
 
