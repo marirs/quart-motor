@@ -54,7 +54,7 @@ class Motor(object):
         """__init__."""
         self.cx = None
         self.db = None
-        self._json_provider_class = partial(JSONEncoder, json_options=json_options)
+        self._json_encoder = partial(JSONEncoder, json_options=json_options)
 
         if app is not None:
             self.init_app(app, uri, *args, **kwargs)
