@@ -11,7 +11,7 @@ from functools import partial
 from mimetypes import guess_type
 import sys
 
-from quart import abort, current_app, request
+from quart import abort, current_app, request, Quart
 from gridfs import GridFS, NoFile
 from pymongo import uri_parser
 from werkzeug.wsgi import wrap_file
@@ -59,7 +59,7 @@ class Motor(object):
         if app is not None:
             self.init_app(app, uri, *args, **kwargs)
 
-    def init_app(self, app, uri=None, *args, **kwargs):
+    def init_app(self, app: Quart, uri=None, *args, **kwargs):
         """Initialize this :class:`Motor` for use.
 
         Configure a :class:`~motor_async.AsyncIOMotorClient`
@@ -102,7 +102,7 @@ class Motor(object):
         app.before_serving(_before_serving)
 
         app.url_map.converters["ObjectId"] = BSONObjectIdConverter
-        app.json = self._json_provider_class(app=app)
+        app.json = self._json_encoder(app=app)
 
     # view helpers
     def send_file(self, filename, base="fs", version=-1, cache_for=31536000):

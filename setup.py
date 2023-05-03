@@ -38,7 +38,7 @@ with open('README.md') as f:
 
 setup(
     name="Quart-Motor",
-    version='2.4.4',
+    version='2.4.5',
     url="https://www.github.com/marirs/quart-motor/",
     download_url="https://www.github.com/marirs/quart-motor/tags",
     license="BSD",
@@ -51,9 +51,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "PyMongo>=3.10",
-        "Quart>=0.12.0",
+        "Quart>=0.18.0",
         "motor>=2.1.0",
         "six",
+        "werkzeug"
     ],
     classifiers=[
         "Environment :: Web Environment",
