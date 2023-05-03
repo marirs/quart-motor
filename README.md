@@ -81,7 +81,7 @@ Quart-Motor provides helpers for some common tasks:
 
 .. autoclass:: quart_motor.helpers.BSONObjectIdConverter
 
-.. autoclass:: quart_motor.helpers.JSONProvider
+.. autoclass:: quart_motor.helpers.JSONEncoder
 
 Configuration
 -------------

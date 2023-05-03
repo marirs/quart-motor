@@ -7,7 +7,7 @@ from six import iteritems, string_types
 from werkzeug.routing import BaseConverter
 import pymongo
 
-__all__ = ["BSONObjectIdConverter", "JSONProvider"]
+__all__ = ["BSONObjectIdConverter", "JSONEncoder"]
 
 
 if pymongo.version_tuple >= (3, 5, 0):
@@ -69,7 +69,7 @@ class JSONEncoder(quart_json.provider.DefaultJSONProvider):
     Since this uses PyMongo's JSON tools, certain types may serialize
     differently than you expect. See :class:`~bson.json_util.JSONOptions`
     for details on the particular serialization that will be used.
-    A :class:`~quart_motor.helpers.JSONProvider` is automatically
+    A :class:`~quart_motor.helpers.JSONEncoder` is automatically
     automatically installed on the :class:`~quart_motor.Motor`
     instance at creation time, using
     :const:`~bson.json_util.RELAXED_JSON_OPTIONS`. You can change the
@@ -111,6 +111,6 @@ class JSONEncoder(quart_json.provider.DefaultJSONProvider):
                 return json_util.default(obj, **self._default_kwargs)
             except TypeError:
                 # PyMongo couldn't convert into a serializable object, and
-                # the Flask default JSONProvider won't; so we return the
+                # the Flask default JSONEncoder won't; so we return the
                 # object itself and let stdlib json handle it if possible
                 return obj
