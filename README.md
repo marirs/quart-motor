@@ -62,8 +62,8 @@ versions.
 Quart-Motor is tested against `supported versions
 <https://www.mongodb.com/support-policy>`_ of MongoDB, 3.5+.
 
-Quart-Motor works very well with 
-- `uvicorn` asgi 
+Quart-Motor works very well with
+- `uvicorn` asgi
 - `hypercorn` asgi
 
 Quart-Motor is tested against `Python 3.7+` versions.
@@ -186,7 +186,7 @@ Changes:
 
 Flask-PyMongo:
 
-- <https://github.com/dcrosta/flask-pymongo> 
+- <https://github.com/dcrosta/flask-pymongo>
 
 
 Contributors of Flask-PyMongo:

@@ -61,7 +61,7 @@ class AsyncIOMotorCollection(motor_asyncio.AsyncIOMotorCollection):
                 "MotorDatabase, not %r" % database
             )
 
-        delegate = _delegate or Collection(
+        delegate = _delegate if _delegate is not None else Collection(
             database.delegate,
             name,
             codec_options=codec_options,
