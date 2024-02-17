@@ -2,7 +2,8 @@
 from bson import json_util, SON
 from bson.errors import InvalidId
 from bson.objectid import ObjectId
-from quart import abort, json as quart_json, Quart
+from quart import abort, Quart
+from quart.json import provider as quart_json_provider
 from six import iteritems, string_types
 from werkzeug.routing import BaseConverter
 import pymongo
@@ -56,7 +57,7 @@ class BSONObjectIdConverter(BaseConverter):
         return str(value)
 
 
-class JSONEncoder(quart_json.provider.DefaultJSONProvider):
+class JSONEncoder(quart_json_provider.DefaultJSONProvider):
     """A JSON encoder that uses :mod:`bson.json_util` for MongoDB documents.
 
     .. code-block:: python
